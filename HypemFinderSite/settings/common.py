@@ -161,16 +161,45 @@ WSGI_APPLICATION = '{}.wsgi.application'.format( SITE_NAME )
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': '%(levelname)s %(asctime)s %(module)s %(process)d %(thread)d %(message)s'
+        },
+        'standard': {
+            'format': '%(asctime)s [%(levelname)s] %(name)s: %(message)s'
+        },
+        'simple': {
+            'format': '%(levelname)s %(message)s'
+        },
+    },
     'filters': {
         'require_debug_false': {
             '()': 'django.utils.log.RequireDebugFalse'
         }
     },
     'handlers': {
+        #Dump every message to /dev/null
+        'null': {
+            'level':'DEBUG',
+            'class':'django.utils.log.NullHandler',
+        },
+        'console':{
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+            'formatter': 'simple'
+        },
         'mail_admins': {
             'level': 'ERROR',
             'filters': ['require_debug_false'],
             'class': 'django.utils.log.AdminEmailHandler'
+        },
+        #Create a time based rotating file every day
+        'rotating_file': {                 
+            'level': 'INFO',
+            'class': 'logging.handlers.TimedRotatingFileHandler', 
+            'formatter': 'standard',
+            'when' : 'D',    
+            'filename': join(SITE_ROOT, 'logs', 'hypemfinder.log')
         }
     },
     'loggers': {
@@ -178,6 +207,10 @@ LOGGING = {
             'handlers': ['mail_admins'],
             'level': 'ERROR',
             'propagate': True,
+        },
+        'hypemfinder': {
+            'handlers': ['rotating_file','console'],
+            'level': 'DEBUG',
         },
     }
 }

@@ -26,7 +26,6 @@ def get_track_list(html):
         return track_list
     try:
         track_list = json.loads(html_tracks.text)
-        print track_list
         return track_list[u'tracks']
     except ValueError:
         print "Not valid json"
