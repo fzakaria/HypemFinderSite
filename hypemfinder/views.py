@@ -11,6 +11,19 @@ def index(request):
     search_form = SearchForm()
     return render(request, 'hypemfinder/index.html', { 'search_form': search_form} )
 
+def ajax_lookup(request):
+  if request.method == 'GET':
+    url = request.GET.get('url','')
+    print "url is : " + url + "\n"
+    html, cookie = generate_hype_html(url)
+    track_list = get_track_list(html)
+    songs = Song.get_by_tracklist(track_list, cookie)
+    jsongs = []
+    for song in songs:
+      jsongs.append(song.to_json)
+    print jsongs
+    return HttpResponse(jsongs, mimetype="application/json")
+
 def lookup(request):
     search_form = SearchForm() #an unbound form
     if request.method == 'GET':
@@ -20,18 +33,7 @@ def lookup(request):
             url = search_form.cleaned_data['url']
             html, cookie = generate_hype_html(url)
             track_list = get_track_list(html)
-
-            songs = []
-            for track in track_list:
-                key = track[u"key"]
-                artist = track[u"artist"]
-                song_id = track[u"id"]
-                title = track[u"song"]
-                song, created = Song.objects.get_or_create(id=song_id, defaults= {'title':title, 'key':key, 'artist':artist, 'cookie':cookie} )
-                if created:
-                    song.url = generate_hype_url(song.get_hype_url(), song.cookie)
-                    song.save()
-                songs.append(song)
+            songs = Song.get_by_tracklist(track_list, cookie)
             return render(request, 'hypemfinder/song_list.html', { 'search_form': search_form, 'songs': songs} )
     return render(request, 'hypemfinder/index.html', { 'search_form': search_form} )
 
