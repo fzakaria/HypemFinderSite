@@ -169,7 +169,7 @@ LOGGING = {
             'format': '%(asctime)s [%(levelname)s] %(name)s: %(message)s'
         },
         'simple': {
-            'format': '%(levelname)s %(message)s'
+            'format': '[%(levelname)s] - %(message)s'
         },
     },
     'filters': {

@@ -8,6 +8,7 @@ from utils import generate_hype_html, get_track_list, generate_hype_url
 from django.http import Http404
 import urllib2
 import logging
+from hypemfinder.response import JsonResponse
 
 logger = logging.getLogger(__name__)
 
@@ -16,17 +17,16 @@ def index(request):
     return render(request, 'hypemfinder/index.html', { 'search_form': search_form} )
 
 def ajax_lookup(request):
-  if request.method == 'GET':
-    url = request.GET.get('url','')
-    print "url is : " + url + "\n"
+    if request.method != 'GET':
+        return HttpResponseBadRequest()
+    url = request.GET.get('url')
+    if url is None:
+        return HttpResponseBadRequest()
+    logger.debug("Ajax Lookup Request for url: {}".format(url) )
     html, cookie = generate_hype_html(url)
     track_list = get_track_list(html)
     songs = Song.get_by_tracklist(track_list, cookie)
-    jsongs = []
-    for song in songs:
-      jsongs.append(song.to_json)
-    print jsongs
-    return HttpResponse(jsongs, mimetype="application/json")
+    return JsonResponse(songs)
 
 def lookup(request):
     search_form = SearchForm() #an unbound form
