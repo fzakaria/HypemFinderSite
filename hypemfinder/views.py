@@ -5,6 +5,7 @@ from django.core.urlresolvers import reverse
 from hypemfinder.forms import SearchForm
 from django.template import RequestContext
 from utils import generate_hype_html, get_track_list, generate_hype_url
+from django.http import Http404
 import urllib2
 import logging
 
@@ -48,6 +49,7 @@ def download(request, song_id):
         return response
     except urllib2.URLError, e:
         logger.warning("Failed performing request to {} with reason: {}".format(song.url, e.reason) )
+        raise Http404
 
 def details(request, song_id):
     search_form = SearchForm()
