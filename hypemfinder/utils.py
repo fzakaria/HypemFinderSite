@@ -2,6 +2,9 @@ import urllib2, urllib
 from bs4 import BeautifulSoup
 from time import time
 import json
+import logging
+
+logger = logging.getLogger(__name__)
 
 def generate_hype_html(url):
     """This generates the complete hypem url. Guarenteed to be hypem.com url"""
@@ -31,12 +34,13 @@ def get_track_list(html):
         print "Not valid json"
         return []
 
-def generate_hype_url(song_url, cookie):
+def generate_hype_download_url(song_url, cookie):
     request = urllib2.Request(song_url, "" , {'Content-Type': 'application/json'})
     request.add_header('cookie', cookie)
     response = urllib2.urlopen(request)
     song_data_json = response.read()
     response.close()
     song_data = json.loads(song_data_json)
+    logger.debug("Retrieve song data: {} ".format(song_data) )
     url = song_data[u"url"]
     return url

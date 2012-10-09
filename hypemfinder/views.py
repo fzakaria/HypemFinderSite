@@ -4,7 +4,7 @@ from hypemfinder.models import Song
 from django.core.urlresolvers import reverse
 from hypemfinder.forms import SearchForm
 from django.template import RequestContext
-from utils import generate_hype_html, get_track_list, generate_hype_url
+from utils import generate_hype_html, get_track_list
 from django.http import Http404
 import urllib2
 import logging
@@ -18,14 +18,17 @@ def index(request):
 
 def ajax_lookup(request):
     if request.method != 'GET':
+        logger.warning("Tried a POST request to the ajax method")
         return HttpResponseBadRequest()
     url = request.GET.get('url')
     if url is None:
+        logger.warning("Did not send any url parameter to the GET request")
         return HttpResponseBadRequest()
     logger.debug("Ajax Lookup Request for url: {}".format(url) )
     html, cookie = generate_hype_html(url)
     track_list = get_track_list(html)
     songs = Song.get_by_tracklist(track_list, cookie)
+    logger.debug("FOUND {} songs.".format(len(songs)))
     return JsonResponse(songs)
 
 def lookup(request):

@@ -2,7 +2,7 @@
 {% load widget_tweaks %}
 
 {% block content %}
-<div class="hero-unit">
+<div id="welcome-banner" class="hero-unit">
 	<h1>Welcome to HypemSong Finder!</h1>
 	<p>This is a simple site for allowing easy access to downloading the songs made available on <a href="http://www.hypem.com">hypem.com</a>.</p>
 	<p>It's fairly simple to use, simply enter in the search field any valid hypem.com URL and it will return a result of parsed songs and downloads!</p>
@@ -12,7 +12,7 @@
 <div class="row">
 	<div class="span4 offset4">
 		<h2>Search for songs!</h2>
-		<form class="form-search" action="{% url hypemfinder.views.lookup %}" method="get">
+		<form id="song-search-form" class="form-search" action="{% url hypemfinder.views.ajax_lookup %}" method="get">
 			<div class="input-append">
 				{{search_form.errors}}
 				{{ search_form.url|add_class:"span2 search-query" }}
@@ -21,4 +21,102 @@
 		</form>
 	</div>
 </div>
+
+<div class="row">
+	<div class="span9 offset1">
+		<div id="search-spinner" style="margin-top:40px;"></div>
+	</div>
+</div>
+
+<div  id="song-row" class="row" style="display:none;" >
+	<div class="span8 offset2" >
+		<h2>Songs</h2>
+		<table id="song-table" class="table table-striped">
+		<thead>
+			<tr>
+				<th>#</th>
+				<th>Title</th>
+				<th>Artist</th>
+				<th>Details</th>
+				<th>Download</th>
+			</tr>
+		</thead>
+		<tbody id="song-table-body">
+		</tbody>
+		</table>
+	</div>
+</div>
 {% endblock content %}
+
+{% block body-js %}
+    <script>
+
+    	function SongModel(songs) {
+    		var self = this;
+    		self.songs = songs;
+    	};
+
+
+        // wait for the DOM to be loaded 
+        $(document).ready(function() {
+
+			var opts = {
+			  lines: 11, // The number of lines to draw
+			  length: 11, // The length of each line
+			  width: 4, // The line thickness
+			  radius: 10, // The radius of the inner circle
+			  corners: 1, // Corner roundness (0..1)
+			  rotate: 0, // The rotation offset
+			  color: '#000', // #rgb or #rrggbb
+			  speed: 1, // Rounds per second
+			  trail: 60, // Afterglow percentage
+			  shadow: false, // Whether to render a shadow
+			  hwaccel: false, // Whether to use hardware acceleration
+			  className: 'spinner', // The CSS class to assign to the spinner
+			  zIndex: 2e9, // The z-index (defaults to 2000000000)
+			  top: 'auto', // Top position relative to parent in px
+			  left: 'auto' // Left position relative to parent in px
+			};
+			var spinner = new Spinner(opts);
+
+			jQuery.ajaxSetup({
+			  beforeSend: function() {
+			     spinner.spin(document.getElementById('search-spinner') );
+			  },
+			  complete: function(){
+			     spinner.stop();
+			  },
+			  success: function() {}
+			});
+
+        	$('#song-search-form').ajaxForm({
+        		dataType: 'json',
+        		beforeSubmit: beforeSearch,
+        		success: processSearchResults
+        	});
+
+        	function beforeSearch(formData, jqForm, options) {
+        		$('#song-row').hide();
+        		$('#song-table-body').empty(); //clear the table
+        		$('#welcome-banner').hide();//hide the welcome banner
+        		return true;
+        	}
+
+        	function processSearchResults(data) { 
+        		console.debug("Songs returned!");
+				$('#song-row').show();
+        		for (var idx = 0 ; idx < data.length; idx++) {
+        			var current_song = data[idx];
+        			var list_index = idx + 1;
+        			$('#song-table-body').append('<tr>');
+        			$('#song-table-body').append('<td>'+ list_index +'</td>');
+        			$('#song-table-body').append('<td>' + current_song.fields.title + '</td>');
+        			$('#song-table-body').append('<td>' + current_song.fields.artist + '</td>');
+        			$('#song-table-body').append('<td><a href="songs/'+current_song.pk+'">View</a></td>');
+        			$('#song-table-body').append('<td><a class="btn" href="download/'+current_song.pk+'"><i class="icon-download-alt"></i></a></td>');
+        			$('#song-table-body').append('</tr>');
+        		}
+			}
+        }); 
+    </script> 
+{% endblock body-js%}

@@ -1,5 +1,9 @@
 from django.db import models
 import json as simplejson
+import logging
+from utils import  generate_hype_download_url
+
+logger = logging.getLogger(__name__)
 
 class Song(models.Model):
   id = models.CharField(max_length=10, primary_key=True)
@@ -23,20 +27,7 @@ class Song(models.Model):
       title = track[u"song"]
       song, created = Song.objects.get_or_create(id=song_id, defaults= {'title':title, 'key':key, 'artist':artist, 'cookie':cookie} )
       if created:
-        song.url = generate_hype_url(song.get_hype_url(), song.cookie)
+        song.url = generate_hype_download_url(song.get_hype_url(), song.cookie)
         song.save()
       songs.append(song)
     return songs
-
-  def to_json(self):
-    song = {}
-    
-    
-    fields = []
-    for field in self._meta.fields:
-      fields.append(field.name)
-
-    d = {}
-    for attr in fields:
-        d[attr] = getattr(self, attr)
-    return simplejson.dumps(d)
