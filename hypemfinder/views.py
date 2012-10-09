@@ -50,7 +50,7 @@ def download(request, song_id):
         hype_request = urllib2.Request(song.url)
         hype_response = urllib2.urlopen(hype_request)
         response = HttpResponse(hype_response, content_type='audio/mpeg')
-        response['Content-Disposition'] = 'attachment; filename={}.mp3'.format(song.title)
+        response['Content-Disposition'] = 'attachment; filename="{}.mp3"'.format(song.title)
         return response
     except urllib2.URLError, e:
         logger.warning("Failed performing request to {} with reason: {}".format(song.url, e.reason) )
