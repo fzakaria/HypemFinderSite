@@ -3,3 +3,4 @@ django-debug-toolbar
 BeautifulSoup4
 django-widget-tweaks
 fabric
+mysql-python
