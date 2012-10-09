@@ -3,7 +3,7 @@ from urlparse import urlparse
 from django.core.exceptions import ValidationError
 
 class SearchForm(forms.Form):
-    url = forms.URLField(initial='http://')
+    url = forms.URLField(initial='http://hypem.com/popular')
 
     def clean_url(self):
         url = self.cleaned_data["url"]
