@@ -1,0 +1,15 @@
+Sqlite3
+========
+
+1) Simply delete the database file
+2) python manage.py syncdb (with appropriate settings file)
+
+
+Mysql
+==========
+1) mysql -u root -p
+2) grant all privilges on <databaseName>.* to 'user'@'hostname' IDENTIFIED by 'password';
+ex: grant all privileges on dbTest.* to 'fzakaria'@'localhost' identified by '123456';
+3) python manage.py sqlclear <appname>
+4) execute those commands in mysql;
+
