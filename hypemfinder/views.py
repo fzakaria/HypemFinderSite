@@ -4,7 +4,7 @@ from hypemfinder.models import Song
 from django.core.urlresolvers import reverse
 from hypemfinder.forms import SearchForm
 from django.template import RequestContext
-from utils import generate_hype_html, get_track_list
+from utils import generate_hype_html, get_track_list,generate_hype_download_url
 from django.http import Http404
 import urllib2
 import logging
@@ -45,12 +45,17 @@ def lookup(request):
 
 
 def download(request, song_id):
+    #Step 1: Get the song in question
     song = get_object_or_404(Song, pk=song_id)
+    #Step 2: Call Hypem.com to get the song download URL
+    song.download_url = generate_hype_download_url(song.get_hype_url(), song.cookie)
     try:
-        hype_request = urllib2.Request(song.url)
+        hype_request = urllib2.Request(song.download_url)
         hype_response = urllib2.urlopen(hype_request)
         response = HttpResponse(hype_response, content_type='audio/mpeg')
         response['Content-Disposition'] = 'attachment; filename="{}.mp3"'.format(song.title)
+        song.download_count += 1
+        song.save()
         return response
     except urllib2.URLError, e:
         logger.warning("Failed performing request to {} with reason: {}".format(song.url, e.reason) )
@@ -60,3 +65,5 @@ def details(request, song_id):
     search_form = SearchForm()
     song = get_object_or_404(Song, pk=song_id)
     return render(request, 'hypemfinder/details.html', { 'song': song, 'search_form': search_form} )
+
+

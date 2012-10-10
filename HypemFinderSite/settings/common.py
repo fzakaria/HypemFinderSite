@@ -145,6 +145,7 @@ INSTALLED_APPS = (
     # 'django.contrib.admindocs',
     'hypemfinder',
 	'widget_tweaks',
+    'south',
 )
 ########## END APP CONFIGURATION
 

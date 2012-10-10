@@ -1,11 +1,15 @@
-{% extends "hypemfinder/base.html" %}
+{% extends "base.html" %}
 {% load widget_tweaks %}
 
 {% block content %}
 <div id="welcome-banner" class="hero-unit">
+	<button id="banner-close" class="close">&times;</button>
 	<h1>Welcome to HypemSong Finder!</h1>
-	<p>This is a simple site for allowing easy access to downloading the songs made available on <a href="http://www.hypem.com">hypem.com</a>.</p>
-	<p>It's fairly simple to use, simply enter in the search field any valid hypem.com URL and it will return a result of parsed songs and downloads!</p>
+	<p>
+	This is a simple site for allowing easy access to downloading the songs made available on <a href="http://www.hypem.com">hypem.com</a>.
+	It's fairly simple to use, simply enter in the search field any valid hypem.com URL and it will return a result of parsed songs and downloads!
+	</p>
+	<p><a class="btn btn-primary btn-large" href="{% url about %}">Learn more &raquo;</a></p>
 </div>
 
 
@@ -87,6 +91,10 @@
 			     spinner.stop();
 			  },
 			  success: function() {}
+			});
+
+			$('#banner-close').click( function() {
+				$('#welcome-banner').hide('slow');
 			});
 
         	$('#song-search-form').ajaxForm({

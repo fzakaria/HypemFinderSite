@@ -4,3 +4,4 @@ BeautifulSoup4
 django-widget-tweaks
 fabric
 mysql-python
+south

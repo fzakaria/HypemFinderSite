@@ -11,7 +11,10 @@ class Song(models.Model):
   key = models.CharField(max_length=200)
   artist = models.CharField(max_length=200)
   cookie = models.CharField(max_length=200)
-  url = models.URLField()
+  post_url = models.URLField()
+  time = models.PositiveIntegerField(default=0)
+  download_url = models.URLField()
+  download_count = models.PositiveIntegerField(default=0)
 
   def get_hype_url(self):
     return  "http://hypem.com/serve/source/{}/{}".format(self.id,self.key)
@@ -25,9 +28,8 @@ class Song(models.Model):
       artist = track[u"artist"]
       song_id = track[u"id"]
       title = track[u"song"]
-      song, created = Song.objects.get_or_create(id=song_id, defaults= {'title':title, 'key':key, 'artist':artist, 'cookie':cookie} )
-      if created:
-        song.url = generate_hype_download_url(song.get_hype_url(), song.cookie)
-        song.save()
+      posturl = track[u"posturl"]
+      time = int(track[u"time"])
+      song, created = Song.objects.get_or_create(id=song_id, defaults= {'title':title, 'key':key, 'artist':artist, 'cookie':cookie, 'post_url': posturl, 'time':time} )
       songs.append(song)
     return songs

@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block page_title %}About{% endblock %}
+
+{% block nav %}
+<li><a href="{% url hypemfinder.views.index %}">Home</a></li>
+<li class="active"><a href="{% url about %}">About</a></li>
+<li><a href="{% url contact %}">Contact</a></li>
+{% if debug %}
+<li><a href="{% url admin:index %}">Admin</a></li>
+{% endif %}
+{% endblock nav %}}
+
+{% block content %}
+<div class="row">
+	<div class="span6 offset2">
+                    <h2>About</h2>
+                    <p>Welcome to HypemSong Finder! This site was envisioned as a means of me learning <a href="https://www.djangoproject.com/">Django</a>.</p>
+                    <p>As with most of my projects, I've decided to stay analy-focused on a <a href="http://hypem.com/">HypeMachine</a> and help people get a hold
+                    	of the music they enjoy hearing on the site.</p>
+                    <p> As with most of my projects, you can find discussions and breakdown of how they crafted on my <a href="http://blog.fzakaria.com/">blog</a>.
+                    	I enjoy keeping most of my projects opensource and have hosted the code for this site on GitHub as well. You can click the button below to view
+                    	the source.
+                    	<blockquote>Please feel free to contribute and help make the site better!</blockquote>
+                    </p> 
+                    <p><a class="btn" href="https://github.com/fzakaria/HypemFinderSite">View Source &raquo;</a></p>
+    </div>
+</div>
+<div class="row">
+	<div class="span6 offset2">
+		<h2>Donate</h2>
+		<p> I put a lot of time into my projects which you may make use of. I don't ask for compensation for the projects I've released however if you'd like to
+			make it known that you appreciate my work please donate me some <em>beer money</em>.
+		</p>
+		<p>
+		<form action="https://www.paypal.com/cgi-bin/webscr" method="post">
+		<input type="hidden" name="cmd" value="_s-xclick">
+		<input type="hidden" name="encrypted" value="-----BEGIN PKCS7-----MIIHLwYJKoZIhvcNAQcEoIIHIDCCBxwCAQExggEwMIIBLAIBADCBlDCBjjELMAkGA1UEBhMCVVMxCzAJBgNVBAgTAkNBMRYwFAYDVQQHEw1Nb3VudGFpbiBWaWV3MRQwEgYDVQQKEwtQYXlQYWwgSW5jLjETMBEGA1UECxQKbGl2ZV9jZXJ0czERMA8GA1UEAxQIbGl2ZV9hcGkxHDAaBgkqhkiG9w0BCQEWDXJlQHBheXBhbC5jb20CAQAwDQYJKoZIhvcNAQEBBQAEgYASKUSWBJRLj64FPHHZ+rauNb48hZztdwmfs3BHxrSW9uvVuQvKZgwscO4CN0VdrGLk0F4Y+GjJmVdbhj/sbP/9jJEay4p41S1XLWP7MulqHUxG+R1+uNVqkF/WJYbCDoCqPxcV/W4QZOSCg37lDKCy/hLS1V9QnvYfPOMbZ7tujTELMAkGBSsOAwIaBQAwgawGCSqGSIb3DQEHATAUBggqhkiG9w0DBwQI4d9wEBI7JOKAgYiPiPBUoV2UiFCkNeU7YJu+ftVR1/tH2PIsSKP6wFkL1/hJMZDWhsGexIiPvyHKwDJt9RndWVEQngumFQppOPg6GRnjrjEo/39XGCwVoPadfeNQbWnaSVKFHqBhtM5d/eG1YMqyJmCvQ7LDDAtDxZ8CqRu5CS3WxBfV4MVCWzQg2lhPSZV/ZUuLoIIDhzCCA4MwggLsoAMCAQICAQAwDQYJKoZIhvcNAQEFBQAwgY4xCzAJBgNVBAYTAlVTMQswCQYDVQQIEwJDQTEWMBQGA1UEBxMNTW91bnRhaW4gVmlldzEUMBIGA1UEChMLUGF5UGFsIEluYy4xEzARBgNVBAsUCmxpdmVfY2VydHMxETAPBgNVBAMUCGxpdmVfYXBpMRwwGgYJKoZIhvcNAQkBFg1yZUBwYXlwYWwuY29tMB4XDTA0MDIxMzEwMTMxNVoXDTM1MDIxMzEwMTMxNVowgY4xCzAJBgNVBAYTAlVTMQswCQYDVQQIEwJDQTEWMBQGA1UEBxMNTW91bnRhaW4gVmlldzEUMBIGA1UEChMLUGF5UGFsIEluYy4xEzARBgNVBAsUCmxpdmVfY2VydHMxETAPBgNVBAMUCGxpdmVfYXBpMRwwGgYJKoZIhvcNAQkBFg1yZUBwYXlwYWwuY29tMIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDBR07d/ETMS1ycjtkpkvjXZe9k+6CieLuLsPumsJ7QC1odNz3sJiCbs2wC0nLE0uLGaEtXynIgRqIddYCHx88pb5HTXv4SZeuv0Rqq4+axW9PLAAATU8w04qqjaSXgbGLP3NmohqM6bV9kZZwZLR/klDaQGo1u9uDb9lr4Yn+rBQIDAQABo4HuMIHrMB0GA1UdDgQWBBSWn3y7xm8XvVk/UtcKG+wQ1mSUazCBuwYDVR0jBIGzMIGwgBSWn3y7xm8XvVk/UtcKG+wQ1mSUa6GBlKSBkTCBjjELMAkGA1UEBhMCVVMxCzAJBgNVBAgTAkNBMRYwFAYDVQQHEw1Nb3VudGFpbiBWaWV3MRQwEgYDVQQKEwtQYXlQYWwgSW5jLjETMBEGA1UECxQKbGl2ZV9jZXJ0czERMA8GA1UEAxQIbGl2ZV9hcGkxHDAaBgkqhkiG9w0BCQEWDXJlQHBheXBhbC5jb22CAQAwDAYDVR0TBAUwAwEB/zANBgkqhkiG9w0BAQUFAAOBgQCBXzpWmoBa5e9fo6ujionW1hUhPkOBakTr3YCDjbYfvJEiv/2P+IobhOGJr85+XHhN0v4gUkEDI8r2/rNk1m0GA8HKddvTjyGw/XqXa+LSTlDYkqI8OwR8GEYj4efEtcRpRYBxV8KxAW93YDWzFGvruKnnLbDAF6VR5w/cCMn5hzGCAZowggGWAgEBMIGUMIGOMQswCQYDVQQGEwJVUzELMAkGA1UECBMCQ0ExFjAUBgNVBAcTDU1vdW50YWluIFZpZXcxFDASBgNVBAoTC1BheVBhbCBJbmMuMRMwEQYDVQQLFApsaXZlX2NlcnRzMREwDwYDVQQDFAhsaXZlX2FwaTEcMBoGCSqGSIb3DQEJARYNcmVAcGF5cGFsLmNvbQIBADAJBgUrDgMCGgUAoF0wGAYJKoZIhvcNAQkDMQsGCSqGSIb3DQEHATAcBgkqhkiG9w0BCQUxDxcNMTIxMDEwMDQ1MzEyWjAjBgkqhkiG9w0BCQQxFgQUPXS27RtJVuj7V8X3EB/HWd+PRiMwDQYJKoZIhvcNAQEBBQAEgYB06gR52fW4Zdybs1VrE5RL3OMo5mYYqxrhtD/muTUwmpSY4qGnxpUuyGa28uxmXy8mpGdd+ZFOF0h3KFiCC2RWJA+tBpGTCiBHpL2GmWbTMINroGbZp4HB84Pj842YXPS32BlUs2eBSbsNFPMnkc4D77SR4EBXJqLUitOQ5x1ANA==-----END PKCS7-----
+		">
+		<input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
+		<img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
+		</form>
+		</p>
+	</div>
+</div>
+{% endblock content %}
