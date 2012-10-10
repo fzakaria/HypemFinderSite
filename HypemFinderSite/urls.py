@@ -5,7 +5,8 @@ from django.contrib import admin
 admin.autodiscover()
 
 urlpatterns = patterns('',
-    url(r'^hypemfinder/', include('hypemfinder.urls')),
+    url(r'', include('hypemfinder.urls') ),
+    #url(r'^hypemfinder/', include('hypemfinder.urls')),
     url(r'^admin/', include(admin.site.urls)),
 )
 
