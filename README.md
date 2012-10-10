@@ -29,3 +29,11 @@ Launching Site Prod
 6. create virtualenv (virtualenv env)
 7. activate environment (source env/bin/activate)
 8. pip install -r requirements.txt
+
+
+MIGRATIONS
+=============
+$./manage.py schemamigration hypemfinder --auto
+-> This will create the migration python file
+$./manage.py migrate hypemfinder
+->With that the new columns are migrated!
