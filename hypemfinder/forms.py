@@ -1,14 +1,10 @@
 from django import forms
-from urlparse import urlparse
-from django.core.exceptions import ValidationError
+from hypemfinder.models import Song
+from django.forms import ModelForm
 
-class SearchForm(forms.Form):
-    url = forms.URLField(initial='http://hypem.com/popular')
-
-    def clean_url(self):
-        url = self.cleaned_data["url"]
-        domain = urlparse(url).hostname
-        if domain != "hypem.com":
-            raise ValidationError("Must be a hypem.com url")
-        return url
+class SearchForm(ModelForm):
+    query = forms.CharField(max_length=200)
+    class Meta:
+        model = Song
+        fields = ('song_type',)
 

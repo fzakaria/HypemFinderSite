@@ -14,15 +14,15 @@
 
 
 <div class="row">
-	<div class="span4 offset4">
+	<div class="span6 offset3">
 		<h2>Search for songs!</h2>
-		<form id="song-search-form" class="form-search" action="{% url hypemfinder.views.ajax_lookup %}" method="get">
-			<div class="input-append">
-				{{search_form.errors}}
-				{{ search_form.url|add_class:"span2 search-query" }}
-				<button type="submit" class="btn">Search</button>
-			</div>
-		</form>
+        <form id="song-search-form" action="{% url hypemfinder.views.ajax_lookup %}" method="get">
+            {{ search_form.query|add_class:"span4" }}
+            {{ search_form.song_type|add_class:"input-medium"}}
+            <button type="submit" class="btn">Search</button>
+        </form>
+
+
 	</div>
 </div>
 
@@ -112,6 +112,7 @@
 
         	function processSearchResults(data) { 
         		console.debug("Songs returned!");
+                console.debug(data);
 				$('#song-row').show();
         		for (var idx = 0 ; idx < data.length; idx++) {
         			var current_song = data[idx];
@@ -121,7 +122,7 @@
         			$('#song-table-body').append('<td>' + current_song.fields.title + '</td>');
         			$('#song-table-body').append('<td>' + current_song.fields.artist + '</td>');
         			$('#song-table-body').append('<td><a href="songs/'+current_song.pk+'">View</a></td>');
-        			$('#song-table-body').append('<td><a class="btn" href="download/'+current_song.pk+'"><i class="icon-download-alt"></i></a></td>');
+        			$('#song-table-body').append('<td><a class="btn" href="download/'+current_song.fields.song_type+'/'+current_song.pk+'"><i class="icon-download-alt"></i></a></td>');
         			$('#song-table-body').append('</tr>');
         		}
 			}

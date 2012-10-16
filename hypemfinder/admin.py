@@ -1,4 +1,7 @@
-from hypemfinder.models import Song
 from django.contrib import admin
+from hypemfinder.models import HypemSong
 
-admin.site.register(Song)
+class HypemSongAdmin(admin.ModelAdmin):
+    pass
+
+admin.site.register(HypemSong, HypemSongAdmin)
